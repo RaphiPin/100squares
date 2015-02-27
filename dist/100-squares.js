@@ -95,7 +95,7 @@ module.exports = Board = (function(superClass) {
 
 
 
-},{"./Grid.coffee":4,"./GridContainer.coffee":5}],2:[function(require,module,exports){
+},{"./Grid.coffee":5,"./GridContainer.coffee":6}],2:[function(require,module,exports){
 "use strict";
 
 /*
@@ -198,7 +198,7 @@ module.exports = BottomChooseList = (function(superClass) {
 
 
 
-},{"./Piece.coffee":7}],3:[function(require,module,exports){
+},{"./Piece.coffee":8}],3:[function(require,module,exports){
 "use strict";
 
 /*
@@ -259,6 +259,69 @@ exports.moveConfig = function(target) {
  * You should have received a copy of the GNU Affero General Public License
  * along with 100 squares.  If not, see http://www.gnu.org/licenses/agpl-3.0.html.
  */
+var GameOverScreen,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+module.exports = GameOverScreen = (function(superClass) {
+  extend(GameOverScreen, superClass);
+
+  function GameOverScreen(score) {
+    var gameOverText, rect;
+    GameOverScreen.__super__.constructor.call(this);
+    rect = this.addChild(new createjs.Shape());
+    rect.graphics.beginFill('#111').drawRoundRect(0, 0, 240, 120, 5);
+    gameOverText = this.addChild(new createjs.Text('Game Over!', '40px Arial', '#888'));
+    gameOverText.set({
+      x: 120,
+      y: 50,
+      textAlign: 'center',
+      textBaseline: 'alphabetic'
+    });
+    this.textScore = this.addChild(new createjs.Text("Your score: " + score, '30px Arial', '#888')).set({
+      x: 120,
+      y: 90,
+      textAlign: 'center',
+      textBaseline: 'alphabetic'
+    });
+    this.alpha = 0;
+    this.x = 80;
+    console.log(this);
+    createjs.Tween.get(this).to({
+      y: 220,
+      alpha: 1
+    }, 300, createjs.Ease.cubicOut);
+  }
+
+  return GameOverScreen;
+
+})(createjs.Container);
+
+
+
+},{}],5:[function(require,module,exports){
+"use strict";
+
+/*
+ * Copyright © Romain Fouquet, 2015
+#
+ * romain.fouquet18@gmail.com
+#
+ * This file is part of 100 squares.
+#
+ * 100 squares is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+#
+ * 100 squares is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+#
+ * You should have received a copy of the GNU Affero General Public License
+ * along with 100 squares.  If not, see http://www.gnu.org/licenses/agpl-3.0.html.
+ */
 var Grid,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -285,7 +348,7 @@ module.exports = Grid = (function(superClass) {
 
 
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 
 /*
@@ -394,7 +457,7 @@ module.exports = GridContainer = (function(superClass) {
 
 
 
-},{"./Square.coffee":9}],6:[function(require,module,exports){
+},{"./Square.coffee":10}],7:[function(require,module,exports){
 "use strict";
 
 /*
@@ -417,13 +480,15 @@ module.exports = GridContainer = (function(superClass) {
  * You should have received a copy of the GNU Affero General Public License
  * along with 100 squares.  If not, see http://www.gnu.org/licenses/agpl-3.0.html.
  */
-var Board, BottomChooseList, HundredSquares, ScoreDisplay;
+var Board, BottomChooseList, GameOverScreen, HundredSquares, ScoreDisplay;
 
 Board = require('./Board.coffee');
 
 BottomChooseList = require('./BottomChooseList.coffee');
 
 ScoreDisplay = require('./ScoreDisplay.coffee');
+
+GameOverScreen = require('./GameOverScreen.coffee');
 
 module.exports = HundredSquares = (function() {
   function HundredSquares() {
@@ -443,11 +508,16 @@ module.exports = HundredSquares = (function() {
     this.board = gameStage.addChild(new Board(this));
     this.bottomChooseList = gameStage.addChild(new BottomChooseList(this));
     this.addStageTicker();
-    return gameStage.enableMouseOver(20);
+    gameStage.enableMouseOver(20);
+    return gameStage.on('mouseover', (function(_this) {
+      return function() {
+        return _this.gameOver();
+      };
+    })(this));
   };
 
   HundredSquares.prototype.gameOver = function() {
-    return console.log('game over!');
+    return this.gameOverScreen = gameStage.addChild(new GameOverScreen(this.scoreDisplay.score));
   };
 
   return HundredSquares;
@@ -456,7 +526,7 @@ module.exports = HundredSquares = (function() {
 
 
 
-},{"./Board.coffee":1,"./BottomChooseList.coffee":2,"./ScoreDisplay.coffee":8}],7:[function(require,module,exports){
+},{"./Board.coffee":1,"./BottomChooseList.coffee":2,"./GameOverScreen.coffee":4,"./ScoreDisplay.coffee":9}],8:[function(require,module,exports){
 "use strict";
 
 /*
@@ -558,7 +628,7 @@ module.exports = Grid = (function(superClass) {
 
 
 
-},{"./Square.coffee":9}],8:[function(require,module,exports){
+},{"./Square.coffee":10}],9:[function(require,module,exports){
 "use strict";
 
 /*
@@ -615,7 +685,7 @@ module.exports = ScoreDisplay = (function(superClass) {
 
 
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 
 /*
@@ -672,7 +742,7 @@ module.exports = Square = (function(superClass) {
 
 
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 "use strict";
 
 /*
@@ -726,4 +796,4 @@ window.onload = function() {
 
 
 
-},{"./DevConfig.coffee":3,"./HundredSquares.coffee":6}]},{},[1,2,3,4,5,6,7,8,9,10]);
+},{"./DevConfig.coffee":3,"./HundredSquares.coffee":7}]},{},[1,2,3,4,5,6,7,8,9,10,11]);

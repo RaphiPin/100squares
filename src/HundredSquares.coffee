@@ -22,6 +22,7 @@
 Board = require './Board.coffee'
 BottomChooseList = require './BottomChooseList.coffee'
 ScoreDisplay = require './ScoreDisplay.coffee'
+GameOverScreen = require './GameOverScreen.coffee'
 
 module.exports = class HundredSquares
   constructor: ->
@@ -41,5 +42,10 @@ module.exports = class HundredSquares
     @addStageTicker()
     gameStage.enableMouseOver 20
 
+
+    gameStage.on 'mouseover', =>
+      @gameOver()
+
+
   gameOver: ->
-    console.log 'game over!'
+    @gameOverScreen = gameStage.addChild new GameOverScreen @scoreDisplay.score
