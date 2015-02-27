@@ -270,7 +270,7 @@ module.exports = GameOverScreen = (function(superClass) {
     var gameOverText, rect;
     GameOverScreen.__super__.constructor.call(this);
     rect = this.addChild(new createjs.Shape());
-    rect.graphics.beginFill('#111').drawRoundRect(0, 0, 240, 120, 5);
+    rect.graphics.beginFill('#111').drawRoundRect(0, 0, 240, 120, 20);
     gameOverText = this.addChild(new createjs.Text('Game Over!', '40px Arial', '#888'));
     gameOverText.set({
       x: 120,
@@ -286,7 +286,6 @@ module.exports = GameOverScreen = (function(superClass) {
     });
     this.alpha = 0;
     this.x = 80;
-    console.log(this);
     createjs.Tween.get(this).to({
       y: 220,
       alpha: 1
@@ -508,12 +507,7 @@ module.exports = HundredSquares = (function() {
     this.board = gameStage.addChild(new Board(this));
     this.bottomChooseList = gameStage.addChild(new BottomChooseList(this));
     this.addStageTicker();
-    gameStage.enableMouseOver(20);
-    return gameStage.on('mouseover', (function(_this) {
-      return function() {
-        return _this.gameOver();
-      };
-    })(this));
+    return gameStage.enableMouseOver(20);
   };
 
   HundredSquares.prototype.gameOver = function() {
