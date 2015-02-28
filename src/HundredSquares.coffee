@@ -42,5 +42,13 @@ module.exports = class HundredSquares
     @addStageTicker()
     gameStage.enableMouseOver 20
 
+    window.go = =>
+      @gameOver()
+
   gameOver: ->
-    @gameOverScreen = gameStage.addChild new GameOverScreen @scoreDisplay.score
+    @gameOverScreen = gameStage.addChild new GameOverScreen this, @scoreDisplay.score
+
+  replay: ->
+    gameStage.removeAllChildren()
+    @removeStageTicker()
+    @launchMagic()

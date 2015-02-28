@@ -25,13 +25,12 @@ module.exports = class ScoreDisplay extends createjs.Container
 
     @score = 0
 
-    @textScore = new createjs.Text('', '30px Arial', '#888')
+    @textScore = @addChild new createjs.Text('', '30px Arial', '#888')
     .set
       x: 40
       y: 40
       textBaseline: 'alphabetic'
 
-    @addChild @textScore
     @update()
 
   update: ->

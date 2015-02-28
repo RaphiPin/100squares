@@ -45,7 +45,6 @@ module.exports = class GridContainer extends createjs.Container
     for x in [0...10] # TODO: use const
       n = 0
       for y in [0...10]
-        # console.log @grid[x][y].numChildren is 0
         if @grid[x][y].numChildren is 0
           break
         else
