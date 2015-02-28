@@ -59,7 +59,9 @@ module.exports = class Board extends createjs.Container
     for y in [0...shape.length] by 1
       for x in [0...shape[y].length] by 1
         if shape[y][x] is 1
-          if (gridX + x) < 0 or (gridX + x) > 9 or (gridY + y) < 0 or (gridY + y) > 9 or @gridContainer.grid[gridX + x][gridY + y].removed or @gridContainer.grid[gridX + x][gridY + y].numChildren
+          if (gridX + x) < 0 or (gridX + x) > 9 or (gridY + y) < 0 or (gridY + y) > 9 # TODO: merge these if statements
+            return false
+          if @gridContainer.grid[gridX + x][gridY + y].numChildren and not @gridContainer.grid[gridX + x][gridY + y].getChildAt(0).removed
             return false
 
     return true
@@ -70,7 +72,9 @@ module.exports = class Board extends createjs.Container
     for y in [0...shape.length] by 1
       for x in [0...shape[y].length] by 1
         if shape[y][x] is 1
-          if (dropX + x) < 0 or (dropX + x) > 9 or (dropY + y) < 0 or (dropY + y) > 9 or @gridContainer.grid[dropX + x][dropY + y].removed or @gridContainer.grid[dropX + x][dropY + y].numChildren
+          if (dropX + x) < 0 or (dropX + x) > 9 or (dropY + y) < 0 or (dropY + y) > 9
+            return false
+          if @gridContainer.grid[dropX + x][dropY + y].numChildren and not @gridContainer.grid[dropX + x][dropY + y].getChildAt(0).removed
             return false
 
     return true
