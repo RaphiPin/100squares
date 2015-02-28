@@ -1,12 +1,12 @@
 {
   "name": "100-squares",
   "title": "100 squares",
-  "version": "0.5.0",
+  "version": "0.6.1",
   "description": "Another grid-based game.",
-  "homepage": "",
+  "homepage": "http://romfouq.github.io/100squares/",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/RomFouq/100squares.git"
   },
   "keywords": [
   ],
