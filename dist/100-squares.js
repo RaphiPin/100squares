@@ -1,21 +1,827 @@
-/*!
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+"use strict";
+
+/*
  * Copyright © Romain Fouquet, 2015
- *
+#
  * romain.fouquet18@gmail.com
- *
- * This file is part of 100 sqaures.
- *
- * 100 sqaures is free software: you can redistribute it and/or modify
+#
+ * This file is part of 100 squares.
+#
+ * 100 squares is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
- * 100 sqaures is distributed in the hope that it will be useful,
+#
+ * 100 squares is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+#
  * You should have received a copy of the GNU Affero General Public License
- * along with 100 sqaures.  If not, see http://www.gnu.org/licenses/agpl-3.0.html.
+ * along with 100 squares.  If not, see http://www.gnu.org/licenses/agpl-3.0.html.
  */
-!function a(b,c,d){function e(g,h){if(!c[g]){if(!b[g]){var i="function"==typeof require&&require;if(!h&&i)return i(g,!0);if(f)return f(g,!0);var j=new Error("Cannot find module '"+g+"'");throw j.code="MODULE_NOT_FOUND",j}var k=c[g]={exports:{}};b[g][0].call(k.exports,function(a){var c=b[g][1][a];return e(c?c:a)},k,k.exports,a,b,c,d)}return c[g].exports}for(var f="function"==typeof require&&require,g=0;g<d.length;g++)e(d[g]);return e}({1:[function(a,b){"use strict";var c,d,e,f=function(a,b){function c(){this.constructor=a}for(var d in b)g.call(b,d)&&(a[d]=b[d]);return c.prototype=b.prototype,a.prototype=new c,a.__super__=b.prototype,a},g={}.hasOwnProperty;d=a("./Grid.coffee"),e=a("./GridContainer.coffee"),b.exports=c=function(a){function b(a){b.__super__.constructor.call(this),this.y=60,this.addChild(new d),this.gridContainer=this.addChild(new e(a))}return f(b,a),b.prototype.dropPiece=function(a){var b,c,d,e,f,g,h,i,j;for(a.parent.localToLocal(a.x,a.y,this,a),b=Math.round(a.x/40),c=Math.round(a.y/40),h=a.shape,j=d=0,f=h.length;f>d;j=d+=1)for(i=e=0,g=h[j].length;g>e;i=e+=1)h[j][i]&&this.gridContainer.addSquare(b+i,c+j,a.color);return a.parent.removeChild(a),this.gridContainer.checkGrid()},b.prototype.canDrop=function(a){var b,c,d,e,f,g,h,i,j,k;for(f=a.parent.localToLocal(a.x,a.y,this),b=Math.round(f.x/40),c=Math.round(f.y/40),i=a.shape,k=d=0,g=i.length;g>d;k=d+=1)for(j=e=0,h=i[k].length;h>e;j=e+=1)if(1===i[k][j]){if(0>b+j||b+j>9||0>c+k||c+k>9)return!1;if(this.gridContainer.grid[b+j][c+k].numChildren&&!this.gridContainer.grid[b+j][c+k].getChildAt(0).removed)return!1}return!0},b.prototype.canDropAt=function(a,b,c){var d,e,f,g,h,i,j;for(h=a.shape,j=d=0,f=h.length;f>d;j=d+=1)for(i=e=0,g=h[j].length;g>e;i=e+=1)if(1===h[j][i]){if(0>b+i||b+i>9||0>c+j||c+j>9)return!1;if(this.gridContainer.grid[b+i][c+j].numChildren&&!this.gridContainer.grid[b+i][c+j].getChildAt(0).removed)return!1}return!0},b}(createjs.Container)},{"./Grid.coffee":5,"./GridContainer.coffee":6}],2:[function(a,b){"use strict";var c,d,e=function(a,b){function c(){this.constructor=a}for(var d in b)f.call(b,d)&&(a[d]=b[d]);return c.prototype=b.prototype,a.prototype=new c,a.__super__=b.prototype,a},f={}.hasOwnProperty;d=a("./Piece.coffee"),b.exports=c=function(a){function b(a){this.hundredSquares=a,b.__super__.constructor.call(this),this.PIECE_NUMBER=4,this.shapeList=[[[1,1,1,1],[0,0,0,0],[0,0,0,0],[0,0,0,0]],[[1,0,0,0],[1,0,0,0],[1,0,0,0],[1,0,0,0]],[[1,1,0,0],[1,1,0,0],[0,0,0,0],[0,0,0,0]],[[1,1,0,0],[0,1,1,0],[0,0,0,0],[0,0,0,0]],[[0,1,1,0],[1,1,0,0],[0,0,0,0],[0,0,0,0]],[[1,0,0,0],[1,1,0,0],[0,1,0,0],[0,0,0,0]],[[0,1,0,0],[1,1,0,0],[1,0,0,0],[0,0,0,0]],[[0,1,0,0],[1,1,0,0],[0,1,0,0],[0,0,0,0]],[[1,0,0,0],[1,1,0,0],[1,0,0,0],[0,0,0,0]],[[1,1,1,0],[0,1,0,0],[0,0,0,0],[0,0,0,0]],[[0,1,0,0],[1,1,1,0],[0,0,0,0],[0,0,0,0]],[[1,1,1,0],[1,0,0,0],[0,0,0,0],[0,0,0,0]],[[1,1,1,0],[0,0,1,0],[0,0,0,0],[0,0,0,0]],[[1,0,0,0],[1,0,0,0],[1,1,0,0],[0,0,0,0]],[[0,1,0,0],[0,1,0,0],[1,1,0,0],[0,0,0,0]]],this.colorList=["#B32BA9","#B32BA9","#6AC60D","#1DB7ED","#1DB7ED","#1DB7ED","#1DB7ED","#FFC42A","#FFC42A","#FFC42A","#FFC42A","#FF7312","#FF7312","#FF7312","#FF7312"],this.regList=[new createjs.Point(2,.5),new createjs.Point(.5,2),new createjs.Point(1,1),new createjs.Point(1.5,1),new createjs.Point(1.5,1),new createjs.Point(1,1.5),new createjs.Point(1,1.5),new createjs.Point(1,1.5),new createjs.Point(1,1.5),new createjs.Point(1.5,1),new createjs.Point(1.5,1),new createjs.Point(1.5,1),new createjs.Point(1.5,1),new createjs.Point(1,1.5),new createjs.Point(1,1.5)],this.SHAPE_NUMBER=this.shapeList.length,this.y=canvasWidth+60,this.fillPieces()}return e(b,a),b.prototype.fillPieces=function(){var a,b,c,d;for(this.pieceLeft=this.PIECE_NUMBER,a=b=0,d=this.PIECE_NUMBER;d>b;a=b+=1)c=Math.floor(Math.random()*this.SHAPE_NUMBER),this.addPiece(a,this.shapeList[c],this.colorList[c],this.regList[c]);return this.x=canvasWidth,createjs.Tween.get(this).to({x:0},700,createjs.Ease.cubicOut),this.isGameOver()},b.prototype.addPiece=function(a,b,c,e){return this.addChild(new d(this.hundredSquares,new createjs.Point(20+100*a,20),b,c,e))},b.prototype.removePiece=function(){return this.pieceLeft--,this.pieceLeft?void this.isGameOver():this.fillPieces()},b.prototype.isGameOver=function(){var a,b,c,d,e,f,g,h,i,j;if(0!==this.pieceLeft){for(f=0,g=this.children,a=0,d=g.length;d>a;a++){for(e=g[a],h=0,i=b=0;10>b;i=++b)for(j=c=0;10>c;j=++c)this.hundredSquares.board.canDropAt(e,i,j)||h++;100===h&&f++}return f===this.pieceLeft?this.hundredSquares.gameOver():void 0}},b}(createjs.Container)},{"./Piece.coffee":8}],3:[function(a,b,c){"use strict";c.DEBUG_MODE=!0,c.moveConfig=function(a){return a.cursor="move",a.on("pressmove",function(b){return a.x=b.stageX,a.y=b.stageY}),a.on("pressup",function(){return console.log(a.x,a.y)})}},{}],4:[function(a,b){"use strict";var c,d=function(a,b){function c(){this.constructor=a}for(var d in b)e.call(b,d)&&(a[d]=b[d]);return c.prototype=b.prototype,a.prototype=new c,a.__super__=b.prototype,a},e={}.hasOwnProperty;b.exports=c=function(a){function b(a,c){var d,e,f,g;this.hundredSquares=a,b.__super__.constructor.call(this),e=this.addChild(new createjs.Shape),e.graphics.beginFill("#111").drawRoundRect(0,0,240,120,20),d=this.addChild(new createjs.Text("Game Over!","40px Arial","#888")),d.set({x:120,y:55,textAlign:"center",textBaseline:"alphabetic"}),this.textScore=this.addChild(new createjs.Text("Your score: "+c,"30px Arial","#888")).set({x:120,y:95,textAlign:"center",textBaseline:"alphabetic"}),this.button=this.addChild(new createjs.Container),this.button.set({x:40,y:160,cursor:"pointer"}),this.button.on("click",function(a){return function(){return a.hundredSquares.replay()}}(this)),f=this.button.addChild(new createjs.Shape),f.graphics.beginFill("#111").drawRoundRect(0,0,160,40,5),g=this.button.addChild(new createjs.Text("Play again!","20px Arial","#888")),g.set({x:80,y:25,textAlign:"center",textBaseline:"alphabetic"}),this.alpha=0,this.x=80,createjs.Tween.get(this).to({y:180,alpha:1},300,createjs.Ease.cubicOut)}return d(b,a),b}(createjs.Container)},{}],5:[function(a,b){"use strict";var c,d=function(a,b){function c(){this.constructor=a}for(var d in b)e.call(b,d)&&(a[d]=b[d]);return c.prototype=b.prototype,a.prototype=new c,a.__super__=b.prototype,a},e={}.hasOwnProperty;b.exports=c=function(a){function b(){var a,c,d,e,f,g,h,i;for(b.__super__.constructor.call(this),this.SIDE=400,this.GRID_SIZE=this.SIDE/10,h=a=0,d=this.SIDE,e=this.GRID_SIZE;e>0?d>=a:a>=d;h=a+=e)this.graphics.beginStroke("#555").setStrokeStyle(1).moveTo(h,0).lineTo(h,this.SIDE);for(i=c=0,f=this.SIDE,g=this.GRID_SIZE;g>0?f>=c:c>=f;i=c+=g)this.graphics.beginStroke("#555").setStrokeStyle(1).moveTo(0,i).lineTo(this.SIDE,i)}return d(b,a),b}(createjs.Shape)},{}],6:[function(a,b){"use strict";var c,d,e=function(a,b){function c(){this.constructor=a}for(var d in b)f.call(b,d)&&(a[d]=b[d]);return c.prototype=b.prototype,a.prototype=new c,a.__super__=b.prototype,a},f={}.hasOwnProperty;d=a("./Square.coffee"),b.exports=c=function(a){function b(a){var c,d,e,f,g;for(this.hundredSquares=a,b.__super__.constructor.call(this),this.grid=[],f=d=0;10>d;f=++d)for(this.grid[f]=[],g=e=0;10>e;g=++e)c=this.addChild(new createjs.Container),c.x=40*f,c.y=40*g,this.grid[f][g]=c}return e(b,a),b.prototype.addSquare=function(a,b,c){var e,f;return null!=(e=this.grid[a])&&null!=(f=e[b])?f.addChild(new d(new createjs.Point(0,0),c)):void 0},b.prototype.checkGrid=function(){var a,b,c,d,e,f,g,h;for(g=a=0;10>a;g=++a){for(e=0,h=b=0;10>b&&0!==this.grid[g][h].numChildren;h=++b)e++;10===e&&this.removeColumn(g)}for(f=[],h=c=0;10>c;h=++c){for(e=0,g=d=0;10>d&&0!==this.grid[g][h].numChildren;g=++d)e++;f.push(10===e?this.removeRow(h):void 0)}return f},b.prototype.removeColumn=function(a){var b,c;for(c=b=0;10>b;c=++b)this.grid[a][c].getChildAt(0).disappear();return this.hundredSquares.scoreDisplay.addScore(10)},b.prototype.removeRow=function(a){var b,c;for(c=b=0;10>b;c=++b)this.grid[c][a].getChildAt(0).disappear();return this.hundredSquares.scoreDisplay.addScore(10)},b}(createjs.Container)},{"./Square.coffee":10}],7:[function(a,b){"use strict";var c,d,e,f,g;c=a("./Board.coffee"),d=a("./BottomChooseList.coffee"),g=a("./ScoreDisplay.coffee"),e=a("./GameOverScreen.coffee"),b.exports=f=function(){function a(){this.launchMagic()}return a.prototype.addStageTicker=function(){return createjs.Ticker.on("tick",gameStage)},a.prototype.removeStageTicker=function(){return createjs.Ticker.off("tick",gameStage)},a.prototype.launchMagic=function(){return this.scoreDisplay=gameStage.addChild(new g(this)),this.board=gameStage.addChild(new c(this)),this.bottomChooseList=gameStage.addChild(new d(this)),this.addStageTicker(),gameStage.enableMouseOver(20),window.go=function(a){return function(){return a.gameOver()}}(this)},a.prototype.gameOver=function(){return this.gameOverScreen=gameStage.addChild(new e(this,this.scoreDisplay.score))},a.prototype.replay=function(){return gameStage.removeAllChildren(),this.removeStageTicker(),this.launchMagic()},a}()},{"./Board.coffee":1,"./BottomChooseList.coffee":2,"./GameOverScreen.coffee":4,"./ScoreDisplay.coffee":9}],8:[function(a,b){"use strict";var c,d,e=function(a,b){function c(){this.constructor=a}for(var d in b)f.call(b,d)&&(a[d]=b[d]);return c.prototype=b.prototype,a.prototype=new c,a.__super__=b.prototype,a},f={}.hasOwnProperty;d=a("./Square.coffee"),b.exports=c=function(a){function b(a,c,d,e,f){var g,h,i,j,k,l;for(this.hundredSquares=a,this.initialPosition=c,this.shape=d,this.color=e,this.regPoint=f,b.__super__.constructor.call(this),this.cursor="pointer",this.x=c.x,this.y=c.y,this.scaleX=this.scaleY=.5,l=g=0,i=d.length;i>g;l=g+=1)for(k=h=0,j=d[l].length;j>h;k=h+=1)d[l][k]&&this.addSquare(new createjs.Point(k,l),e);this.on("mousedown",function(){return this.enlarge()}),this.on("pressmove",this.move),this.on("pressup",this.drop)}return e(b,a),b.prototype.addSquare=function(a,b){return this.addChild(new d(a,b))},b.prototype.move=function(a){var b;return b=this.parent.globalToLocal(a.stageX,a.stageY),this.x=b.x-40*this.regPoint.x,this.y=b.y-40*this.regPoint.y},b.prototype.drop=function(){var a;return this.hundredSquares.board.canDrop(this)?(a=this.parent,this.hundredSquares.board.dropPiece(this),this.enlarge(),this.cursor="default",this.removeAllEventListeners(),a.removePiece()):void this.returnToChooseList()},b.prototype.enlarge=function(){return this.scaleX=this.scaleY=1},b.prototype.returnToChooseList=function(){return createjs.Tween.get(this).to({x:this.initialPosition.x,y:this.initialPosition.y,scaleX:.5,scaleY:.5},700,createjs.Ease.cubicOut)},b}(createjs.Container)},{"./Square.coffee":10}],9:[function(a,b){"use strict";var c,d=function(a,b){function c(){this.constructor=a}for(var d in b)e.call(b,d)&&(a[d]=b[d]);return c.prototype=b.prototype,a.prototype=new c,a.__super__=b.prototype,a},e={}.hasOwnProperty;b.exports=c=function(a){function b(){b.__super__.constructor.call(this),this.score=0,this.textScore=this.addChild(new createjs.Text("","30px Arial","#888")).set({x:40,y:40,textBaseline:"alphabetic"}),this.update()}return d(b,a),b.prototype.update=function(){return this.textScore.text="Score: "+this.score},b.prototype.addScore=function(a){return this.score+=a,this.update()},b}(createjs.Container)},{}],10:[function(a,b){"use strict";var c,d=function(a,b){function c(){this.constructor=a}for(var d in b)e.call(b,d)&&(a[d]=b[d]);return c.prototype=b.prototype,a.prototype=new c,a.__super__=b.prototype,a},e={}.hasOwnProperty;b.exports=c=function(a){function b(a,c){this.SIDE=40,this.SPACE=0,b.__super__.constructor.call(this),this.removed=!1,this.regX=this.regY=this.SIDE/2,this.x=a.x*(this.SIDE+this.SPACE)+this.regX,this.y=a.y*(this.SIDE+this.SPACE)+this.regY,this.graphics.beginFill(c).drawRoundRect(0,0,this.SIDE,this.SIDE,this.SIDE/4)}return d(b,a),b.prototype.disappear=function(){return this.removed=!0,createjs.Tween.get(this).to({scaleX:0,scaleY:0},500,createjs.Ease.cubicIn).call(function(){return this.parent.removeChild(this)})},b}(createjs.Shape)},{}],11:[function(a){"use strict";var b,c;c=a("./HundredSquares.coffee"),b=a("./DevConfig.coffee").DEBUG_MODE,window.onload=function(){var a,d;return a=document.getElementById("gameCanvas"),b||(window.onbeforeunload=function(){return"Are you sure you want to quit?"}),window.gameStage=new createjs.Stage(a),window.canvasHeight=a.height,window.canvasWidth=a.width,createjs.Ticker.setFPS(30),createjs.Touch.enable(gameStage,!0),d=new c,b?gameStage.on("click",function(a){return 2===a.nativeEvent.which?console.log(a.stageX,a.stageY):void 0}):void 0}},{"./DevConfig.coffee":3,"./HundredSquares.coffee":7}]},{},[1,2,3,4,5,6,7,8,9,10,11]);
+var Board, Grid, GridContainer,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+Grid = require('./Grid.coffee');
+
+GridContainer = require('./GridContainer.coffee');
+
+module.exports = Board = (function(superClass) {
+  extend(Board, superClass);
+
+  function Board(hundredSquares) {
+    Board.__super__.constructor.call(this);
+    this.y = 60;
+    this.addChild(new Grid());
+    this.gridContainer = this.addChild(new GridContainer(hundredSquares));
+  }
+
+  Board.prototype.dropPiece = function(piece) {
+    var gridX, gridY, i, j, ref, ref1, shape, x, y;
+    piece.parent.localToLocal(piece.x, piece.y, this, piece);
+    gridX = Math.round(piece.x / 40);
+    gridY = Math.round(piece.y / 40);
+    shape = piece.shape;
+    for (y = i = 0, ref = shape.length; i < ref; y = i += 1) {
+      for (x = j = 0, ref1 = shape[y].length; j < ref1; x = j += 1) {
+        if (shape[y][x]) {
+          this.gridContainer.addSquare(gridX + x, gridY + y, piece.color);
+        }
+      }
+    }
+    piece.parent.removeChild(piece);
+    return this.gridContainer.checkGrid();
+  };
+
+  Board.prototype.canDrop = function(piece) {
+    var gridX, gridY, i, j, p, ref, ref1, shape, x, y;
+    p = piece.parent.localToLocal(piece.x, piece.y, this);
+    gridX = Math.round(p.x / 40);
+    gridY = Math.round(p.y / 40);
+    shape = piece.shape;
+    for (y = i = 0, ref = shape.length; i < ref; y = i += 1) {
+      for (x = j = 0, ref1 = shape[y].length; j < ref1; x = j += 1) {
+        if (shape[y][x] === 1) {
+          if ((gridX + x) < 0 || (gridX + x) > 9 || (gridY + y) < 0 || (gridY + y) > 9) {
+            return false;
+          }
+          if (this.gridContainer.grid[gridX + x][gridY + y].numChildren && !this.gridContainer.grid[gridX + x][gridY + y].getChildAt(0).removed) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  };
+
+  Board.prototype.canDropAt = function(piece, dropX, dropY) {
+    var i, j, ref, ref1, shape, x, y;
+    shape = piece.shape;
+    for (y = i = 0, ref = shape.length; i < ref; y = i += 1) {
+      for (x = j = 0, ref1 = shape[y].length; j < ref1; x = j += 1) {
+        if (shape[y][x] === 1) {
+          if ((dropX + x) < 0 || (dropX + x) > 9 || (dropY + y) < 0 || (dropY + y) > 9) {
+            return false;
+          }
+          if (this.gridContainer.grid[dropX + x][dropY + y].numChildren && !this.gridContainer.grid[dropX + x][dropY + y].getChildAt(0).removed) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  };
+
+  return Board;
+
+})(createjs.Container);
+
+
+
+},{"./Grid.coffee":5,"./GridContainer.coffee":6}],2:[function(require,module,exports){
+"use strict";
+
+/*
+ * Copyright © Romain Fouquet, 2015
+#
+ * romain.fouquet18@gmail.com
+#
+ * This file is part of 100 squares.
+#
+ * 100 squares is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+#
+ * 100 squares is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+#
+ * You should have received a copy of the GNU Affero General Public License
+ * along with 100 squares.  If not, see http://www.gnu.org/licenses/agpl-3.0.html.
+ */
+var BottomChooseList, Piece,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+Piece = require('./Piece.coffee');
+
+module.exports = BottomChooseList = (function(superClass) {
+  extend(BottomChooseList, superClass);
+
+  function BottomChooseList(hundredSquares) {
+    this.hundredSquares = hundredSquares;
+    BottomChooseList.__super__.constructor.call(this);
+    this.PIECE_NUMBER = 4;
+    this.shapeList = [[[1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]], [[1, 0, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0]], [[1, 1, 0, 0], [1, 1, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]], [[1, 1, 0, 0], [0, 1, 1, 0], [0, 0, 0, 0], [0, 0, 0, 0]], [[0, 1, 1, 0], [1, 1, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]], [[1, 0, 0, 0], [1, 1, 0, 0], [0, 1, 0, 0], [0, 0, 0, 0]], [[0, 1, 0, 0], [1, 1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0]], [[0, 1, 0, 0], [1, 1, 0, 0], [0, 1, 0, 0], [0, 0, 0, 0]], [[1, 0, 0, 0], [1, 1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0]], [[1, 1, 1, 0], [0, 1, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]], [[0, 1, 0, 0], [1, 1, 1, 0], [0, 0, 0, 0], [0, 0, 0, 0]], [[1, 1, 1, 0], [1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]], [[1, 1, 1, 0], [0, 0, 1, 0], [0, 0, 0, 0], [0, 0, 0, 0]], [[1, 0, 0, 0], [1, 0, 0, 0], [1, 1, 0, 0], [0, 0, 0, 0]], [[0, 1, 0, 0], [0, 1, 0, 0], [1, 1, 0, 0], [0, 0, 0, 0]]];
+    this.colorList = ['#B32BA9', '#B32BA9', '#6AC60D', '#1DB7ED', '#1DB7ED', '#1DB7ED', '#1DB7ED', '#FFC42A', '#FFC42A', '#FFC42A', '#FFC42A', '#FF7312', '#FF7312', '#FF7312', '#FF7312'];
+    this.regList = [new createjs.Point(2, 0.5), new createjs.Point(0.5, 2), new createjs.Point(1, 1), new createjs.Point(1.5, 1), new createjs.Point(1.5, 1), new createjs.Point(1, 1.5), new createjs.Point(1, 1.5), new createjs.Point(1, 1.5), new createjs.Point(1, 1.5), new createjs.Point(1.5, 1), new createjs.Point(1.5, 1), new createjs.Point(1.5, 1), new createjs.Point(1.5, 1), new createjs.Point(1, 1.5), new createjs.Point(1, 1.5)];
+    this.SHAPE_NUMBER = this.shapeList.length;
+    this.y = canvasWidth + 60;
+    this.fillPieces();
+  }
+
+  BottomChooseList.prototype.fillPieces = function() {
+    var i, j, random, ref;
+    this.pieceLeft = this.PIECE_NUMBER;
+    for (i = j = 0, ref = this.PIECE_NUMBER; j < ref; i = j += 1) {
+      random = Math.floor(Math.random() * this.SHAPE_NUMBER);
+      this.addPiece(i, this.shapeList[random], this.colorList[random], this.regList[random]);
+    }
+    this.x = canvasWidth;
+    createjs.Tween.get(this).to({
+      x: 0
+    }, 700, createjs.Ease.cubicOut);
+    return this.isGameOver();
+  };
+
+  BottomChooseList.prototype.addPiece = function(index, shape, color, regPoint) {
+    return this.addChild(new Piece(this.hundredSquares, new createjs.Point(20 + 4 * (20 + 5) * index, 20), shape, color, regPoint));
+  };
+
+  BottomChooseList.prototype.removePiece = function() {
+    this.pieceLeft--;
+    if (this.pieceLeft) {
+      this.isGameOver();
+      return;
+    }
+    return this.fillPieces();
+  };
+
+  BottomChooseList.prototype.isGameOver = function() {
+    var j, k, l, len, piece, piecesBlocked, ref, squaresBlocked, x, y;
+    if (this.pieceLeft === 0) {
+      return;
+    }
+    piecesBlocked = 0;
+    ref = this.children;
+    for (j = 0, len = ref.length; j < len; j++) {
+      piece = ref[j];
+      squaresBlocked = 0;
+      for (x = k = 0; k < 10; x = ++k) {
+        for (y = l = 0; l < 10; y = ++l) {
+          if (!this.hundredSquares.board.canDropAt(piece, x, y)) {
+            squaresBlocked++;
+          }
+        }
+      }
+      if (squaresBlocked === 10 * 10) {
+        piecesBlocked++;
+      }
+    }
+    if (piecesBlocked === this.pieceLeft) {
+      return this.hundredSquares.gameOver();
+    }
+  };
+
+  return BottomChooseList;
+
+})(createjs.Container);
+
+
+
+},{"./Piece.coffee":8}],3:[function(require,module,exports){
+"use strict";
+
+/*
+ * Copyright © Romain Fouquet, 2015
+#
+ * romain.fouquet18@gmail.com
+#
+ * This file is part of Short Circuit.
+#
+ * Short Circuit is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+#
+ * Short Circuit is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+#
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Short Circuit.  If not, see http://www.gnu.org/licenses/agpl-3.0.html.
+ */
+exports.DEBUG_MODE = true;
+
+exports.moveConfig = function(target) {
+  target.cursor = 'move';
+  target.on('pressmove', function(e) {
+    target.x = e.stageX;
+    return target.y = e.stageY;
+  });
+  return target.on('pressup', function() {
+    return console.log(target.x, target.y);
+  });
+};
+
+
+
+},{}],4:[function(require,module,exports){
+"use strict";
+
+/*
+ * Copyright © Romain Fouquet, 2015
+#
+ * romain.fouquet18@gmail.com
+#
+ * This file is part of 100 squares.
+#
+ * 100 squares is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+#
+ * 100 squares is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+#
+ * You should have received a copy of the GNU Affero General Public License
+ * along with 100 squares.  If not, see http://www.gnu.org/licenses/agpl-3.0.html.
+ */
+var GameOverScreen,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+module.exports = GameOverScreen = (function(superClass) {
+  extend(GameOverScreen, superClass);
+
+  function GameOverScreen(hundredSquares, score) {
+    var gameOverText, rect, rectButton, textButton;
+    this.hundredSquares = hundredSquares;
+    GameOverScreen.__super__.constructor.call(this);
+    rect = this.addChild(new createjs.Shape());
+    rect.graphics.beginFill('#111').drawRoundRect(0, 0, 240, 120, 20);
+    gameOverText = this.addChild(new createjs.Text('Game Over!', '40px Arial', '#888'));
+    gameOverText.set({
+      x: 120,
+      y: 55,
+      textAlign: 'center',
+      textBaseline: 'alphabetic'
+    });
+    this.textScore = this.addChild(new createjs.Text("Your score: " + score, '30px Arial', '#888')).set({
+      x: 120,
+      y: 95,
+      textAlign: 'center',
+      textBaseline: 'alphabetic'
+    });
+    this.button = this.addChild(new createjs.Container());
+    this.button.set({
+      x: 40,
+      y: 160,
+      cursor: 'pointer'
+    });
+    this.button.on('click', (function(_this) {
+      return function() {
+        return _this.hundredSquares.replay();
+      };
+    })(this));
+    rectButton = this.button.addChild(new createjs.Shape());
+    rectButton.graphics.beginFill('#111').drawRoundRect(0, 0, 160, 40, 5);
+    textButton = this.button.addChild(new createjs.Text('Play again!', '20px Arial', '#888'));
+    textButton.set({
+      x: 80,
+      y: 25,
+      textAlign: 'center',
+      textBaseline: 'alphabetic'
+    });
+    this.alpha = 0;
+    this.x = 80;
+    createjs.Tween.get(this).to({
+      y: 180,
+      alpha: 1
+    }, 300, createjs.Ease.cubicOut);
+  }
+
+  return GameOverScreen;
+
+})(createjs.Container);
+
+
+
+},{}],5:[function(require,module,exports){
+"use strict";
+
+/*
+ * Copyright © Romain Fouquet, 2015
+#
+ * romain.fouquet18@gmail.com
+#
+ * This file is part of 100 squares.
+#
+ * 100 squares is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+#
+ * 100 squares is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+#
+ * You should have received a copy of the GNU Affero General Public License
+ * along with 100 squares.  If not, see http://www.gnu.org/licenses/agpl-3.0.html.
+ */
+var Grid,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+module.exports = Grid = (function(superClass) {
+  extend(Grid, superClass);
+
+  function Grid() {
+    var i, j, ref, ref1, ref2, ref3, x, y;
+    Grid.__super__.constructor.call(this);
+    this.SIDE = 400;
+    this.GRID_SIZE = this.SIDE / 10;
+    for (x = i = 0, ref = this.SIDE, ref1 = this.GRID_SIZE; ref1 > 0 ? i <= ref : i >= ref; x = i += ref1) {
+      this.graphics.beginStroke('#555').setStrokeStyle(1).moveTo(x, 0).lineTo(x, this.SIDE);
+    }
+    for (y = j = 0, ref2 = this.SIDE, ref3 = this.GRID_SIZE; ref3 > 0 ? j <= ref2 : j >= ref2; y = j += ref3) {
+      this.graphics.beginStroke('#555').setStrokeStyle(1).moveTo(0, y).lineTo(this.SIDE, y);
+    }
+  }
+
+  return Grid;
+
+})(createjs.Shape);
+
+
+
+},{}],6:[function(require,module,exports){
+"use strict";
+
+/*
+ * Copyright © Romain Fouquet, 2015
+#
+ * romain.fouquet18@gmail.com
+#
+ * This file is part of 100 squares.
+#
+ * 100 squares is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+#
+ * 100 squares is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+#
+ * You should have received a copy of the GNU Affero General Public License
+ * along with 100 squares.  If not, see http://www.gnu.org/licenses/agpl-3.0.html.
+ */
+var GridContainer, Square,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+Square = require('./Square.coffee');
+
+module.exports = GridContainer = (function(superClass) {
+  extend(GridContainer, superClass);
+
+  function GridContainer(hundredSquares) {
+    var c, i, j, x, y;
+    this.hundredSquares = hundredSquares;
+    GridContainer.__super__.constructor.call(this);
+    this.grid = [];
+    for (x = i = 0; i < 10; x = ++i) {
+      this.grid[x] = [];
+      for (y = j = 0; j < 10; y = ++j) {
+        c = this.addChild(new createjs.Container());
+        c.x = x * 40;
+        c.y = y * 40;
+        this.grid[x][y] = c;
+      }
+    }
+  }
+
+  GridContainer.prototype.addSquare = function(x, y, color) {
+    var ref, ref1;
+    return (ref = this.grid[x]) != null ? (ref1 = ref[y]) != null ? ref1.addChild(new Square(new createjs.Point(0, 0), color)) : void 0 : void 0;
+  };
+
+  GridContainer.prototype.checkGrid = function() {
+    var i, j, k, l, n, results, x, y;
+    for (x = i = 0; i < 10; x = ++i) {
+      n = 0;
+      for (y = j = 0; j < 10; y = ++j) {
+        if (this.grid[x][y].numChildren === 0) {
+          break;
+        } else {
+          n++;
+        }
+      }
+      if (n === 10) {
+        this.removeColumn(x);
+      }
+    }
+    results = [];
+    for (y = k = 0; k < 10; y = ++k) {
+      n = 0;
+      for (x = l = 0; l < 10; x = ++l) {
+        if (this.grid[x][y].numChildren === 0) {
+          break;
+        } else {
+          n++;
+        }
+      }
+      if (n === 10) {
+        results.push(this.removeRow(y));
+      } else {
+        results.push(void 0);
+      }
+    }
+    return results;
+  };
+
+  GridContainer.prototype.removeColumn = function(x) {
+    var i, y;
+    for (y = i = 0; i < 10; y = ++i) {
+      this.grid[x][y].getChildAt(0).disappear();
+    }
+    return this.hundredSquares.scoreDisplay.addScore(10);
+  };
+
+  GridContainer.prototype.removeRow = function(y) {
+    var i, x;
+    for (x = i = 0; i < 10; x = ++i) {
+      this.grid[x][y].getChildAt(0).disappear();
+    }
+    return this.hundredSquares.scoreDisplay.addScore(10);
+  };
+
+  return GridContainer;
+
+})(createjs.Container);
+
+
+
+},{"./Square.coffee":10}],7:[function(require,module,exports){
+"use strict";
+
+/*
+ * Copyright © Romain Fouquet, 2015
+#
+ * romain.fouquet18@gmail.com
+#
+ * This file is part of 100 squares.
+#
+ * 100 squares is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+#
+ * 100 squares is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+#
+ * You should have received a copy of the GNU Affero General Public License
+ * along with 100 squares.  If not, see http://www.gnu.org/licenses/agpl-3.0.html.
+ */
+var Board, BottomChooseList, GameOverScreen, HundredSquares, ScoreDisplay;
+
+Board = require('./Board.coffee');
+
+BottomChooseList = require('./BottomChooseList.coffee');
+
+ScoreDisplay = require('./ScoreDisplay.coffee');
+
+GameOverScreen = require('./GameOverScreen.coffee');
+
+module.exports = HundredSquares = (function() {
+  function HundredSquares() {
+    this.launchMagic();
+  }
+
+  HundredSquares.prototype.addStageTicker = function() {
+    return createjs.Ticker.on('tick', gameStage);
+  };
+
+  HundredSquares.prototype.removeStageTicker = function() {
+    return createjs.Ticker.off('tick', gameStage);
+  };
+
+  HundredSquares.prototype.launchMagic = function() {
+    this.launch();
+    this.addStageTicker();
+    return gameStage.enableMouseOver(20);
+  };
+
+  HundredSquares.prototype.launch = function() {
+    this.scoreDisplay = gameStage.addChild(new ScoreDisplay(this));
+    this.board = gameStage.addChild(new Board(this));
+    return this.bottomChooseList = gameStage.addChild(new BottomChooseList(this));
+  };
+
+  HundredSquares.prototype.gameOver = function() {
+    return this.gameOverScreen = gameStage.addChild(new GameOverScreen(this, this.scoreDisplay.score));
+  };
+
+  HundredSquares.prototype.replay = function() {
+    return location.reload();
+  };
+
+  return HundredSquares;
+
+})();
+
+
+
+},{"./Board.coffee":1,"./BottomChooseList.coffee":2,"./GameOverScreen.coffee":4,"./ScoreDisplay.coffee":9}],8:[function(require,module,exports){
+"use strict";
+
+/*
+ * Copyright © Romain Fouquet, 2015
+#
+ * romain.fouquet18@gmail.com
+#
+ * This file is part of 100 squares.
+#
+ * 100 squares is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+#
+ * 100 squares is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+#
+ * You should have received a copy of the GNU Affero General Public License
+ * along with 100 squares.  If not, see http://www.gnu.org/licenses/agpl-3.0.html.
+ */
+var Grid, Square,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+Square = require('./Square.coffee');
+
+module.exports = Grid = (function(superClass) {
+  extend(Grid, superClass);
+
+  function Grid(hundredSquares, position, shape, color, regPoint) {
+    var i, j, ref, ref1, x, y;
+    this.hundredSquares = hundredSquares;
+    this.initialPosition = position;
+    this.shape = shape;
+    this.color = color;
+    this.regPoint = regPoint;
+    Grid.__super__.constructor.call(this);
+    this.cursor = 'pointer';
+    this.x = position.x;
+    this.y = position.y;
+    this.scaleX = this.scaleY = 0.5;
+    for (y = i = 0, ref = shape.length; i < ref; y = i += 1) {
+      for (x = j = 0, ref1 = shape[y].length; j < ref1; x = j += 1) {
+        if (shape[y][x]) {
+          this.addSquare(new createjs.Point(x, y), color);
+        }
+      }
+    }
+    this.on('mousedown', function(e) {
+      return this.enlarge();
+    });
+    this.on('pressmove', this.move);
+    this.on('pressup', this.drop);
+  }
+
+  Grid.prototype.addSquare = function(position, color) {
+    return this.addChild(new Square(position, color));
+  };
+
+  Grid.prototype.move = function(e) {
+    var p;
+    p = this.parent.globalToLocal(e.stageX, e.stageY);
+    this.x = p.x - this.regPoint.x * 40;
+    return this.y = p.y - this.regPoint.y * 40;
+  };
+
+  Grid.prototype.drop = function() {
+    var bottomChooseList;
+    if (!this.hundredSquares.board.canDrop(this)) {
+      this.returnToChooseList();
+      return;
+    }
+    bottomChooseList = this.parent;
+    this.hundredSquares.board.dropPiece(this);
+    this.enlarge();
+    this.cursor = 'default';
+    this.removeAllEventListeners();
+    return bottomChooseList.removePiece();
+  };
+
+  Grid.prototype.enlarge = function() {
+    return this.scaleX = this.scaleY = 1;
+  };
+
+  Grid.prototype.returnToChooseList = function() {
+    return createjs.Tween.get(this).to({
+      x: this.initialPosition.x,
+      y: this.initialPosition.y,
+      scaleX: 0.5,
+      scaleY: 0.5
+    }, 700, createjs.Ease.cubicOut);
+  };
+
+  return Grid;
+
+})(createjs.Container);
+
+
+
+},{"./Square.coffee":10}],9:[function(require,module,exports){
+"use strict";
+
+/*
+ * Copyright © Romain Fouquet, 2015
+#
+ * romain.fouquet18@gmail.com
+#
+ * This file is part of 100 squares.
+#
+ * 100 squares is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+#
+ * 100 squares is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+#
+ * You should have received a copy of the GNU Affero General Public License
+ * along with 100 squares.  If not, see http://www.gnu.org/licenses/agpl-3.0.html.
+ */
+var ScoreDisplay,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+module.exports = ScoreDisplay = (function(superClass) {
+  extend(ScoreDisplay, superClass);
+
+  function ScoreDisplay() {
+    ScoreDisplay.__super__.constructor.call(this);
+    this.score = 0;
+    this.textScore = this.addChild(new createjs.Text('', '30px Arial', '#888')).set({
+      x: 40,
+      y: 40,
+      textBaseline: 'alphabetic'
+    });
+    this.update();
+  }
+
+  ScoreDisplay.prototype.update = function() {
+    return this.textScore.text = "Score: " + this.score;
+  };
+
+  ScoreDisplay.prototype.addScore = function(score) {
+    this.score += score;
+    return this.update();
+  };
+
+  return ScoreDisplay;
+
+})(createjs.Container);
+
+
+
+},{}],10:[function(require,module,exports){
+"use strict";
+
+/*
+ * Copyright © Romain Fouquet, 2015
+#
+ * romain.fouquet18@gmail.com
+#
+ * This file is part of 100 squares.
+#
+ * 100 squares is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+#
+ * 100 squares is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+#
+ * You should have received a copy of the GNU Affero General Public License
+ * along with 100 squares.  If not, see http://www.gnu.org/licenses/agpl-3.0.html.
+ */
+var Square,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+module.exports = Square = (function(superClass) {
+  extend(Square, superClass);
+
+  function Square(position, color) {
+    this.SIDE = 40;
+    this.SPACE = 0;
+    Square.__super__.constructor.call(this);
+    this.removed = false;
+    this.regX = this.regY = this.SIDE / 2;
+    this.x = position.x * (this.SIDE + this.SPACE) + this.regX;
+    this.y = position.y * (this.SIDE + this.SPACE) + this.regY;
+    this.graphics.beginFill(color).drawRoundRect(0, 0, this.SIDE, this.SIDE, this.SIDE / 4);
+  }
+
+  Square.prototype.disappear = function() {
+    this.removed = true;
+    return createjs.Tween.get(this).to({
+      scaleX: 0,
+      scaleY: 0
+    }, 500, createjs.Ease.cubicIn).call(function() {
+      return this.parent.removeChild(this);
+    });
+  };
+
+  return Square;
+
+})(createjs.Shape);
+
+
+
+},{}],11:[function(require,module,exports){
+"use strict";
+
+/*
+ * Copyright © Romain Fouquet, 2015
+#
+ * romain.fouquet18@gmail.com
+#
+ * This file is part of 100 squares.
+#
+ * 100 squares is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+#
+ * 100 squares is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+#
+ * You should have received a copy of the GNU Affero General Public License
+ * along with 100 squares.  If not, see http://www.gnu.org/licenses/agpl-3.0.html.
+ */
+var DEBUG_MODE, HundredSquares;
+
+HundredSquares = require('./HundredSquares.coffee');
+
+DEBUG_MODE = require('./DevConfig.coffee').DEBUG_MODE;
+
+window.onload = function() {
+  var canvas, sg;
+  canvas = document.getElementById('gameCanvas');
+  if (!DEBUG_MODE) {
+    window.onbeforeunload = function() {
+      return 'Are you sure you want to quit?';
+    };
+  }
+  window.gameStage = new createjs.Stage(canvas);
+  window.canvasHeight = canvas.height;
+  window.canvasWidth = canvas.width;
+  createjs.Ticker.setFPS(30);
+  createjs.Touch.enable(gameStage, true);
+  sg = new HundredSquares();
+  if (DEBUG_MODE) {
+    return gameStage.on('click', function(e) {
+      if (e.nativeEvent.which === 2) {
+        return console.log(e.stageX, e.stageY);
+      }
+    });
+  }
+};
+
+
+
+},{"./DevConfig.coffee":3,"./HundredSquares.coffee":7}]},{},[1,2,3,4,5,6,7,8,9,10,11]);

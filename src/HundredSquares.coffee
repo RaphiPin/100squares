@@ -35,20 +35,18 @@ module.exports = class HundredSquares
     createjs.Ticker.off 'tick', gameStage
 
   launchMagic: ->
-    @scoreDisplay = gameStage.addChild new ScoreDisplay this
-    @board = gameStage.addChild new Board this
-    @bottomChooseList = gameStage.addChild new BottomChooseList this
+    @launch()
 
     @addStageTicker()
     gameStage.enableMouseOver 20
 
-    window.go = =>
-      @gameOver()
+  launch: ->
+    @scoreDisplay = gameStage.addChild new ScoreDisplay this
+    @board = gameStage.addChild new Board this
+    @bottomChooseList = gameStage.addChild new BottomChooseList this
 
   gameOver: ->
     @gameOverScreen = gameStage.addChild new GameOverScreen this, @scoreDisplay.score
 
   replay: ->
-    gameStage.removeAllChildren()
-    @removeStageTicker()
-    @launchMagic()
+    location.reload()
