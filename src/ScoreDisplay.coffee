@@ -39,3 +39,16 @@ module.exports = class ScoreDisplay extends createjs.Container
   addScore: (score) ->
     @score += score
     @update()
+
+  addComboLabel: (combo) ->
+    @textCombo = @addChild new createjs.Text("Combo x#{combo}", '30px Arial', '#888')
+    .set
+      x: canvasWidth
+      y: 40
+      textBaseline: 'alphabetic'
+
+    createjs.Tween.get(@textCombo).to(
+      x: 240
+    , 500, createjs.Ease.cubicOut).wait(2000).to(
+      x: canvasWidth
+    , 500, createjs.Ease.cubicOut)

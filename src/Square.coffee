@@ -42,4 +42,4 @@ module.exports = class Square extends createjs.Shape
       scaleX: 0
       scaleY: 0
     , 500, createjs.Ease.cubicIn).call ->
-      @parent.removeChild this
+      @parent?.removeChild this

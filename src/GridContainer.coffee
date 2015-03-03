@@ -41,6 +41,8 @@ module.exports = class GridContainer extends createjs.Container
     @grid[x]?[y]?.addChild new Square new createjs.Point(0, 0), color
 
   checkGrid: ->
+    lines = 0
+
     # Check if column is full
     for x in [0...10] # TODO: use const
       n = 0
@@ -52,6 +54,7 @@ module.exports = class GridContainer extends createjs.Container
 
       if n is 10
         @removeColumn x
+        lines++
 
     # Check if column is full
     for y in [0...10]
@@ -64,15 +67,17 @@ module.exports = class GridContainer extends createjs.Container
 
       if n is 10
         @removeRow y
+        lines++
+
+    if lines
+      @hundredSquares.scoreDisplay.addScore 20 * lines - 10
+      if lines > 1
+        @hundredSquares.scoreDisplay.addComboLabel lines
 
   removeColumn: (x) ->
     for y in [0...10]
       @grid[x][y].getChildAt(0).disappear()
 
-    @hundredSquares.scoreDisplay.addScore 10
-
   removeRow: (y) ->
     for x in [0...10]
       @grid[x][y].getChildAt(0).disappear()
-
-    @hundredSquares.scoreDisplay.addScore 10
